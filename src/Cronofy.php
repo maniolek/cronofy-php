@@ -1,14 +1,14 @@
 <?php
 namespace Cronofy;
 
-class CronofyException extends \Exception
-{
+use Cronofy\Exception as CronofyException;
 
-}
-
+/**
+ * Class Cronofy
+ * @package Cronofy
+ */
 class Cronofy
 {
-
     const USERAGENT = 'Cronofy PHP 0.3';
     const API_ROOT_URL = 'https://api.cronofy.com';
     const API_VERSION = 'v1';
@@ -18,7 +18,7 @@ class Cronofy
     var $access_token;
     var $refresh_token;
 
-    function __construct($client_id = false, $client_secret = false, $access_token = false, $refresh_token = false)
+    public function __construct($client_id = false, $client_secret = false, $access_token = false, $refresh_token = false)
     {
         if (!function_exists('curl_init')) {
             throw new CronofyException("missing cURL extension", 1);
@@ -38,7 +38,7 @@ class Cronofy
         }
     }
 
-    function http_get($url, array $headers = array())
+    protected function http_get($url, array $headers = array())
     {
         if (filter_var($url, FILTER_VALIDATE_URL)===false) {
             throw new CronofyException('invalid URL');
@@ -56,7 +56,7 @@ class Cronofy
         return $result;
     }
 
-    function http_post($url, array $params, array $headers = array())
+    protected function http_post($url, array $params, array $headers = array())
     {
         if (filter_var($url, FILTER_VALIDATE_URL)===false) {
             throw new CronofyException('invalid URL');
@@ -76,7 +76,7 @@ class Cronofy
         return $result;
     }
 
-    function http_delete($url, array $params, array $headers = array())
+    protected function http_delete($url, array $params, array $headers = array())
     {
         if (filter_var($url, FILTER_VALIDATE_URL)===false) {
             throw new CronofyException('invalid URL');
@@ -96,7 +96,7 @@ class Cronofy
         return $result;
     }
 
-    function getAuthorizationURL($params)
+    public function getAuthorizationURL($params)
     {
         /*
           String $client_id : The client ID provided by Cronofy to authenticate your OAuth Client. Authenticates you as a trusted client. REQUIRED
@@ -122,7 +122,7 @@ class Cronofy
         return $url;
     }
 
-    function request_token($params)
+    public function request_token($params)
     {
         /*
           String $client_id : The client ID provided by Cronofy to authenticate your OAuth Client. Authenticates you as a trusted client. REQUIRED
@@ -161,7 +161,7 @@ class Cronofy
         }
     }
 
-    function refresh_token()
+    public function refresh_token()
     {
         /*
           String $client_id : The client ID provided by Cronofy to authenticate your OAuth Client. Authenticates you as a trusted client. REQUIRED
@@ -196,7 +196,7 @@ class Cronofy
         }
     }
 
-    function revoke_authorization($token)
+    public function revoke_authorization($token)
     {
         /*
           String $client_id : The client ID provided by Cronofy to authenticate your OAuth Client. Authenticates you as a trusted client. REQUIRED
@@ -223,7 +223,7 @@ class Cronofy
         return $result;
     }
 
-    function get_account()
+    public function get_account()
     {
         /*
           returns $result - info for the user logged in. Details are available in the Cronofy API Documentation
@@ -240,7 +240,7 @@ class Cronofy
         return $result;
     }
 
-    function get_profiles()
+    public function get_profiles()
     {
         /*
           returns $result - list of all the authenticated user's calendar profiles. Details are available in the Cronofy API Documentation
@@ -257,7 +257,7 @@ class Cronofy
         return $result;
     }
 
-    function list_calendars()
+    public function list_calendars()
     {
         /*
           returns $result - Array of calendars. Details are available in the Cronofy API Documentation
@@ -274,7 +274,7 @@ class Cronofy
         return $result;
     }
 
-    function read_events($params)
+    public function read_events($params)
     {
         /*
           Date from : The minimum date from which to return events. Defaults to 16 days in the past. OPTIONAL
@@ -331,7 +331,7 @@ class Cronofy
         return $result;
     }
 
-    function free_busy($params)
+    public function free_busy($params)
     {
         /*
           Date from : The minimum date from which to return free-busy information. Defaults to 16 days in the past. OPTIONAL
@@ -372,7 +372,7 @@ class Cronofy
         return $result;
     }
 
-    function upsert_event($params)
+    public function upsert_event($params)
     {
         /*
           calendar_id : The calendar_id of the calendar you wish the event to be added to. REQUIRED
@@ -418,7 +418,7 @@ class Cronofy
         }
     }
 
-    function delete_event($params)
+    public function delete_event($params)
     {
         /*
           calendar_id : The calendar_id of the calendar you wish the event to be added to. REQUIRED
