@@ -1,6 +1,7 @@
 <?php
+namespace Cronofy;
 
-class CronofyException extends Exception
+class CronofyException extends \Exception
 {
 
 }
